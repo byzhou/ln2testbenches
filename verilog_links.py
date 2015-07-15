@@ -6,30 +6,32 @@ from os.path import normpath, join
 if len(sys.argv) > 1:
     libroot = sys.argv[1]
 else:
-    libroot = '/path/to/cadence/project' #change the searching path
+    libroot = '/mnt/nokrb/bobzhou/summer_2015/trojantestbenches' #change the searching path
 
 if len(sys.argv) > 2:
     viewname1 = sys.argv[2]
     if len(sys.argv) > 3:
         viewname2 = sys.argv[3]
 else:
-    viewname1 = 'verilogams'
-    viewname2 = 'systemVerilog'
+    viewname1 = 'TjIn'
+    viewname2 = 'TjFree'
 
 # ln 2 both verilogams and systemverilog
 
-base = os.getcwd()
-rootpath = normpath(join(base, libroot))
+rootpath = normpath(libroot)
 
+print libroot
+os.system('cd ' + libroot ) 
+os.system('pwd')
 for root, dirs, files in os.walk(rootpath):
-    if (root.endswith(viewname1) or root.endswith(viewname2))\
-      and ('verilog.vams' in files or 'verilog.sv' in files) \
-      and 'verilog.v' not in files:
+    if (root.endswith(viewname1) or root.endswith(viewname2)):
         print root
-        cellname = os.path.basename(os.path.dirname(root))
-        if 'verilog.vams' in files: 
-            os.system('ln -svf '+ root + '/verilog.vams ' + cellname + '.vams')
-        elif 'verilog.sv' in files: 
-            os.system('ln -svf '+ root + '/verilog.sv ' + cellname + '.sv')
-        os.chdir(base)
+        cellname = os.path.basename(os.path.dirname(os.path.dirname(root)))
+        os.system('mkdir ' + cellname ) 
+        if (root.endswith(viewname1)):
+            os.system('mkdir ' + cellname + '/TjIn' ) 
+            os.system('cp ' + root + '/* ' + cellname + '/TjIn/' ) 
+        if (root.endswith(viewname2)):
+            os.system('mkdir ' + cellname + '/TjFree' ) 
+            os.system('cp ' + root + '/* ' + cellname + '/TjFree/' ) 
        
