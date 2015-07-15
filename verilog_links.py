@@ -16,8 +16,6 @@ else:
     viewname1 = 'TjIn'
     viewname2 = 'TjFree'
 
-# ln 2 both verilogams and systemverilog
-
 rootpath = normpath(libroot)
 
 print libroot
